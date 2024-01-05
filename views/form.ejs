@@ -1,0 +1,46 @@
+<%- include('header') %>
+  <br><br>
+  <div class="container mt-3">
+    <h2 style="text-align: center;">Formulário de Aluguel</h2>
+    <h6 style="text-align: center; color: red;">SE A DATA DE ENTREGA DO LIVRO ULTRAPASSAR DE 7 DIAS E NÃO FOR RENOVADO,
+      SERÁ GERADA UMA MULTA DE R$ 1.00 POR DIA. </h6>
+    <br>
+    <form action="/cadastro" method="post" class="was-validated">
+      <div class="mb-3 mt-3">
+        <label for="nome">Nome do Cliente:</label>
+        <input type="text" class="form-control" id="nome" placeholder="Enter name" name="nome" required>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+      <div class="mb-3">
+        <label for="nomeL">Nome do livro:</label>
+        <input type="text" class="form-control" id="nomeL" placeholder="Enter Book title" name="nomeL" required>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+      <div class="mb-3">
+        <label for="DnomeL">Data do aluguel do livro:</label>
+        <input type="datetime-local" class="form-control" id="DnomeL" name="DnomeL" required>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+      <label for="DnomeL">Quantidade de dias/horas do aluguel:</label>
+      <div class="form-check mb-3">
+        <input type="radio" class="form-check-input" id="radio1" name="optradio" value="24 horas" required>
+        <label class="form-check-label" for="radio1">24 horas</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio2" name="optradio" value="Até 3 dias" required>
+        <label class="form-check-label" for="radio2">Até 3 dias</label>
+      </div><br>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio2" name="optradio" value="Até 7 dias" required>
+        <label class="form-check-label" for="radio2">Até 7 dias</label>
+      </div><br><br>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-dark btn-block">Enviar</button>
+      </div>
+    </form>
+  </div>
+
+  <%- include('footer') %>
