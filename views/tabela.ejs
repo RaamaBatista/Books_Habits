@@ -1,0 +1,33 @@
+<%- include('header') %>
+  <br><br>
+  <h1 style="text-align: center;">Tabela</h1><br>
+  <div class="container mt-3">
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nome do Cliente</th>
+          <th>Nome do Livro</th>
+          <th>Data do aluguel do livro</th>
+          <th>Quantidade de dias/horas do aluguel</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% for(var i=0; i < data.length; i++) { %>
+          <tr>
+            <td><%= data[i].nome %></td>
+            <td><%= data[i].LivroNome %></td>
+            <td><%= data[i].DataAluguel %></td>
+            <td><%= data[i].QtdDia %></td>
+          </tr>
+        <% } %>
+
+      </tbody>
+    </table>
+  </div>
+
+  <button type="button" class="btn btn-dark"><a href="/" style="text-decoration: none; color: white;">VOLTAR</a></button>
+
+  <%- include('footer') %>
+
