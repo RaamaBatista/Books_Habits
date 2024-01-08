@@ -1,0 +1,67 @@
+<%- include('header') %>
+    <br><br>
+    <h1 style="text-align: center;">Login</h1>
+    <div class="container mt-3">
+        <form action="/login" method="post">
+            <div class="mb-3 mt-3">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-dark btn-block">LOGAR</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- MODAL -->
+    <div class="container mt-3">
+        <button type="button" class="btn btn-outline-warning btn-block" data-bs-toggle="modal"
+            data-bs-target="#cadastroModal">
+            Cadastrar Usuário
+        </button>
+
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal" id="cadastroModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Novo Cadastro</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="/cada" method="post">
+                        <div class="mb-3 mt-3">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd" placeholder="Enter password"
+                                name="pswd">
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="cadastrar">CADASTRAR</button>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('footer') %>

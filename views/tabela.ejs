@@ -16,18 +16,124 @@
 
         <% for(var i=0; i < data.length; i++) { %>
           <tr>
-            <td><%= data[i].nome %></td>
-            <td><%= data[i].LivroNome %></td>
-            <td><%= data[i].DataAluguel %></td>
-            <td><%= data[i].QtdDia %></td>
+            <td>
+              <%= data[i].nome %>
+            </td>
+            <td>
+              <%= data[i].LivroNome %>
+            </td>
+            <td>
+              <%= data[i].DataAluguel %>
+            </td>
+            <td>
+              <%= data[i].QtdDia %>
+            </td>
+
+
+            <td>
+              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal"
+                data-id="<%= i%>" data-nome="<%= data[i].nome %>" data-livro="<%= data[i].livro %>">Editar</button>
+            </td>
+
+            <td>
+              <button type="button" class="btn btn-danger  " data-bs-toggle="modal" data-bs-target="#deletModal"
+                data-id="<%= i %>">Deletar</button>
+            </td>
           </tr>
-        <% } %>
+          <% } %>
+
 
       </tbody>
     </table>
   </div>
 
-  <button type="button" class="btn btn-dark"><a href="/" style="text-decoration: none; color: white;">VOLTAR</a></button>
+  <button type="button" class="btn btn-dark"><a href="/"
+      style="text-decoration: none; color: white;">VOLTAR</a></button>
 
-  <%- include('footer') %>
+  <div class="container mt-3">
 
+    <div class="btn-group">
+      <!-- MODAL -->
+
+      <!-- The Modal -->
+      <div class="modal" id="editModal">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Editar</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form action="/editar" method="post" class="was-validated">
+                <div class="mb-3 mt-3">
+                  <label for="nome">ID:</label>
+                  <input type="text" class="form-control" id="recepId" name="id" readonly>
+                </div>
+                <div class="mb-3 mt-3">
+                  <label for="nome">Nome do Cliente:</label>
+                  <input type="text" class="form-control" id="recepNome" placeholder="Enter name" name="nome" required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="nomeL">Nome do livro:</label>
+                  <input type="text" class="form-control" id="recepLivro" placeholder="Enter Book title" name="livro"
+                    required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="DnomeL">Data do aluguel do livro:</label>
+                  <input type="datetime-local" class="form-control" id="recepDateL" name="date" required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <label for="DnomeL">Quantidade de dias/horas do aluguel:</label>
+                <div class="form-check mb-3">
+                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="24 horas" required>
+                  <label class="form-check-label" for="radio1">24 horas</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="Até 3 dias" required>
+                  <label class="form-check-label" for="radio2">Até 3 dias</label>
+                </div><br>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="Até 7 dias" required>
+                  <label class="form-check-label" for="radio2">Até 7 dias</label>
+                </div><br><br>
+                <div class="d-grid">
+                  <button type="submit" id="editar" class="btn btn-dark">Editar</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <script>
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            let r_id = button.data('id');
+            let r_nome = button.data('nome');
+            let r_livro = button.data('livro');
+    
+            let modal = $(this);
+            modal.find('#recepId').val(r_id);
+            modal.find('#recepNome').val(r_nome);
+            modal.find('#recepLivro').val(r_livro);
+        })
+    </script>
+    
+    
+      
+
+      <%- include('footer') %>
