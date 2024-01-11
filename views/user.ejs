@@ -1,0 +1,124 @@
+<%- include('header') %>
+    <br><br>
+
+    <% for(var i=0; i < banco.length; i++) { %>
+
+        <h1 style="text-align: center;">Perfil do usuário</h1>
+        <form class="was-validated">
+            <div class="mb-3 mt-3">
+                <h5>ID: <%= banco[i].id %>
+                </h5>
+            </div><br>
+            <div class="mb-3 mt-3">
+                <h5>Email: <%= banco[i].email %>
+                </h5>
+            </div><br>
+            <div class="mb-3 mt-3">
+                <h5>Senha: <%= banco[i].senha %>
+                </h5>
+            </div><br>
+
+            <div class="mb-3 mt-3">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"
+                    data-id="<%= banco[i].id %>" data-email="<%= banco[i].email %>"
+                    data-senha="<%= banco[i].senha %>">Editar</button>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletModal"
+                    data-id="<%= banco[i].id %>" data-email="<%= banco[i].email %>" data-senha="<%= banco[i].senha %>">
+                    Deletar
+                </button>
+            </div>
+
+        </form>
+        <% } %>
+
+            <!-- The Modal -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Perfil do Usuário</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form action="/editaruser" method="post" class="was-validated">
+                                <div class="mb-3 mt-3">
+                                    <label for="nome">ID:</label>
+                                    <input type="text" class="form-control" id="iduser" name="iduser" readonly>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label for="nome">Email do Usuário:</label>
+                                    <input type="email" class="form-control" id="emailuser" name="emailuser" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label for="nome">Senha do Usuário:</label>
+                                    <input type="text" class="form-control" id="senhauser" name="senhauser" required>
+                                </div>
+
+                                <button type="submit">Editar</button>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <form action="/deleteuser" method="post" class="was-validated">
+                <div class="modal fade" id="deletModal" tabindex="-1" aria-labelledby="deletModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="mb-3 mt-3">
+                                <label for="nome">ID:</label>
+                                <input type="text" class="form-control" id="recepIdd" name="idd" readonly>
+                            </div>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deletModalLabel">Confirmação de Exclusão</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Tem certeza que deseja excluir este item?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <script>
+                $('#myModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                    let r_id = button.data('id');
+                    let r_email = button.data('email');
+                    let r_senha = button.data('senha');
+
+                    let modal = $(this);
+                    modal.find('#iduser').val(r_id);
+                    modal.find('#emailuser').val(r_email);
+                    modal.find('#senhauser').val(r_senha);
+                });
+                $('#deletModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+
+                    let r_id = button.data('id');
+
+                    let modal = $(this);
+
+                    modal.find('#recepIdd').val(r_id);
+                })
+            </script>
+
+            <%- include('footer') %>

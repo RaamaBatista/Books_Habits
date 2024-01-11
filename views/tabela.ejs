@@ -1,5 +1,6 @@
 <%- include('header') %>
   <br><br>
+
   <h1 style="text-align: center;">Tabela</h1><br>
   <div class="container mt-3">
 
@@ -28,17 +29,25 @@
             <td>
               <%= data[i].QtdDia %>
             </td>
+            <td>
+              <%= data[i].nomeL %>
+            </td>
+
 
 
             <td>
               <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal"
-                data-id="<%= i%>" data-nome="<%= data[i].nome %>" data-livro="<%= data[i].livro %>">Editar</button>
+                data-id="<%= i%>" data-nome="<%= data[i].nome %>" data-livro="<%= data[i].LivroNome %>"
+                data-data="<%= data[i].dataa %>" data-dia="<%= data[i].QtdDia %>">Editar</button>
             </td>
 
             <td>
-              <button type="button" class="btn btn-danger  " data-bs-toggle="modal" data-bs-target="#deletModal"
-                data-id="<%= i %>">Deletar</button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletModal"
+                data-idd="<%= i %>">
+                Deletar
+              </button>
             </td>
+
           </tr>
           <% } %>
 
@@ -75,34 +84,38 @@
                 </div>
                 <div class="mb-3 mt-3">
                   <label for="nome">Nome do Cliente:</label>
-                  <input type="text" class="form-control" id="recepNome" placeholder="Enter name" name="nome" required>
-                  <div class="valid-feedback">Valid.</div>
-                  <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
-                <div class="mb-3">
-                  <label for="nomeL">Nome do livro:</label>
-                  <input type="text" class="form-control" id="recepLivro" placeholder="Enter Book title" name="livro"
+                  <input type="text" class="form-control" id="recepNome" placeholder="Enter name" name="recepNome"
                     required>
                   <div class="valid-feedback">Valid.</div>
                   <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
                 <div class="mb-3">
+                  <label for="nomeL">Nome do livro:</label>
+                  <input type="text" class="form-control" id="recepLivro" placeholder="Enter Book title"
+                    name="recepLivro" required>
+                  <div class="valid-feedback">Valid.</div>
+                  <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="mb-3">
                   <label for="DnomeL">Data do aluguel do livro:</label>
-                  <input type="datetime-local" class="form-control" id="recepDateL" name="date" required>
+                  <input type="datetime-local" class="form-control" id="recepDateL" name="recepDateL" required>
                   <div class="valid-feedback">Valid.</div>
                   <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
                 <label for="DnomeL">Quantidade de dias/horas do aluguel:</label>
                 <div class="form-check mb-3">
-                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="24 horas" required>
+                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="24 horas"
+                    required>
                   <label class="form-check-label" for="radio1">24 horas</label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="Até 3 dias" required>
+                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="Até 3 dias"
+                    required>
                   <label class="form-check-label" for="radio2">Até 3 dias</label>
                 </div><br>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="Até 7 dias" required>
+                  <input type="radio" class="form-check-input" id="recepDate" name="recepDate" value="Até 7 dias"
+                    required>
                   <label class="form-check-label" for="radio2">Até 7 dias</label>
                 </div><br><br>
                 <div class="d-grid">
@@ -119,21 +132,57 @@
           </div>
         </div>
       </div>
+
+      <form action="/deletar" method="post" class="was-validated">
+        <div class="modal fade" id="deletModal" tabindex="-1" aria-labelledby="deletModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="mb-3 mt-3">
+                <label for="nome">ID:</label>
+                <input type="text" class="form-control" id="recepIdd" name="idd" readonly>
+              </div>
+              <div class="modal-header">
+                <h5 class="modal-title" id="deletModalLabel">Confirmação de Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Tem certeza que deseja excluir este item?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
       <script>
         $('#editModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            let r_id = button.data('id');
-            let r_nome = button.data('nome');
-            let r_livro = button.data('livro');
-    
-            let modal = $(this);
-            modal.find('#recepId').val(r_id);
-            modal.find('#recepNome').val(r_nome);
-            modal.find('#recepLivro').val(r_livro);
-        })
-    </script>
-    
-    
-      
+          var button = $(event.relatedTarget);
+          let r_id = button.data('id');
+          let r_nome = button.data('nome');
+          let r_livro = button.data('livro');
+          let r_data = button.data('data');
+          let r_dia = button.data('dia');
 
-      <%- include('footer') %>
+          let modal = $(this);
+          modal.find('#recepId').val(r_id);
+          modal.find('#recepNome').val(r_nome);
+          modal.find('#recepLivro').val(r_livro);
+          modal.find('#recepDateL').val(r_data);
+          modal.find('#recepDate').val(r_dia);
+          modal.find('input[name="recepDate"][value="' + r_dia + '"]').prop('checked', true);
+        })
+        $('#deletModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+
+          let r_id = button.data('idd');
+
+          let modal = $(this);
+
+          modal.find('#recepIdd').val(r_id);
+        })
+        </script>
+        <%- include('footer') %>
+
