@@ -1,13 +1,16 @@
-
+// Falta formatar a data para conseguir autoincrementar 
 const express = require('express')
 const bodyparser = require('body-parser')
+const conexao = require('./db');
+const LoginUser = require('./models/loginUser');
+const CadastroBooks = require('./models/cadastroBooks');
+const Person = require('./models/person')
+const AluguelBooks = require('./models/aluguelBooks')
 
 const app = express()
 const port = 3000
 
-var table = []
-var banco = []
-
+var data = []
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -16,23 +19,25 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: false }))
 
 app.get('/', (req, res) => {
-    res.render('login');  
+    res.render('login');
 })
 app.get('/index', (req, res) => {
-    res.render('index');  
+    res.render('index');
 })
-app.get('/tabela', (req, res) => {
-    res.render('tabela', { data: table });  
+app.get('/tabela', async (req, res) => {
+    res.render('tabela', { data: await CadastroBooks.findAll() });
 });
 
-app.get('/user', (req, res) => {
-    res.render('user', { banco: banco });  
+app.get('/user', async (req, res) => {
+    res.render('user', { banco: await LoginUser.findAll() });
 });
 
-app.get('/cadastro', (req, res) => {
-    res.render('cadastro');  
+app.get('/cadastro',async (req, res) => {
+    res.render('cadastro',  { data: await LoginUser.findAll()  });
 });
-app.post('/cadastro', (req, res) => {
+
+
+app.post('/cadastro', async (req, res) => {
     let nome = req.body.nome
     let nomeL = req.body.nomeL
     let DnomeL = req.body.DnomeL
@@ -42,127 +47,170 @@ app.post('/cadastro', (req, res) => {
         `${dateObject.getHours()}:${dateObject.getMinutes()}`;
 
     let optradio = req.body.optradio
-    let item = { 'nome': nome, 'LivroNome': nomeL, 'DataAluguel': date, 'QtdDia': optradio, 'dataa': DnomeL }
+    const novoBook = await CadastroBooks.create({
+        nome: nome,
+        LivroNome: nomeL,
+        DataAluguel: date,
+        QtdDia: optradio,
+        
 
-    table.push(item)
-    res.render('tabela', { data: table });
-    // res.redirect('/')
+    })
+    console.log(novoBook)
+    // let item = { 'nome': nome, 'LivroNome': nomeL, 'DataAluguel': date, 'QtdDia': optradio, 'dataa': DnomeL }
+    res.render('tabela', { data: await CadastroBooks.findAll() });
 
-    // res.send(`O nome do cliente é: ${nome}, o livro escolhido foi: ${nomeL}, A data do aluguel foi: ${date},A quantidade de livros alugada foi: ${optradio}`)
 })
 
-app.post('/cada', (req, res) => {
+app.post('/cada', async (req, res) => {
     let email = req.body.email
     let senha = req.body.pswd
-    let id = banco.length
+    let nome = req.body.nome
+    let endereco = req.body.endereco
 
-    let item = { 'id': id, 'email': email, 'senha': senha }
-    banco.push(item)
+    const novoPerson = await Person.create({
+        nome: nome,
+        endereco: endereco
+    })
+   const novaPerson = await LoginUser.create({
+        email: email,
+        senha: senha
+   })
+
+    console.log(novoPerson)
+    console.log(novaPerson)
+    // res.redirect(`/index/${novoPerson.id}`);
+
     res.render('login')
 
 })
-app.post('/login', (req, res) => {
+app.post('/index', async (req, res) => {
+    res.render('cadastro', { data: await LoginUser.findAll()  });
+
+})
+
+
+app.post('/login', async (req, res) => {
     let email = req.body.email
     let senha = req.body.pswd
-
-    if (banco.length > 0) {
-        for (let j = 0; j < banco.length; j++) {
-            if (banco[j].email == email) {
-                if (banco[j].senha == senha) {
-                    res.render('index')
-                } else {
-                    res.send('Senha incorreta');
-                }
-            } else {
-                res.send('Credenciais Incorretas');
-
-            }
-        }
-    } else {
-        res.send('Credenciais Incorretas');
-    }
-
-})
-app.get('/user', (req, res) => {
-    res.render('user', { banco: banco });
-});
-app.post('/editaruser', (req, res) => {
-    let email = req.body.emailuser
-    console.log(email)
-    let senha = req.body.senhauser
-    console.log(senha)
-    let id =parseInt( req.body.iduser)
-    console.log(banco)
-
-    banco.forEach((item, index) => {
-        if (item.id === id) {
-          banco[index] = { ...item, email: email, senha: senha};
-          console.log('Email modificado com sucesso:', banco[index]);
-        }
-      });
-      
-      console.log('Array Atualizado:', banco);
-
-
-    res.render('user', { banco: banco });
-
-})
-
-app.post('/deleteuser', (req, res) => {
-    let id = req.body.id;
-    console.log(banco);
-
-    if (id >= 0 && id < banco.length) {
-        banco.splice(id, 1);
-        console.log('Usuário removido com sucesso. Novo array:', banco);
-        res.redirect('cadastro', { banco: banco });  //Não sei se está apagando ou nao
-
-    }
     
+  
+    try {
+        const User = await LoginUser.findOne({ where: { email: email , senha: senha} })
+        if (User === null) {
+            res.send('Usuário não encontrado!')
+
+        } else if (User === null) {
+            res.send('Senha incorreta!')
+        }
+
+        res.render('index')
+
+    }
+    catch (error) {
+        res.send(error)
+        return 
+    }
+
 })
-app.post('/editar', (req, res) => {
+
+app.get('/user', async (req, res) => {
+    res.render('user', { banco: await LoginUser.findAll() });
+});
+app.post('/editaruser', async (req, res) => {
+    let email = req.body.emailuser
+    let senha = req.body.senhauser
+    let id = req.body.iduser
+
+    const EditUser = await LoginUser.findByPk(id)
+
+    if (EditUser != null) {
+        EditUser.email = email
+        EditUser.senha = senha
+        EditUser.save()
+        res.render('user', { banco: await LoginUser.findAll() });
+    }
+
+})
+
+app.post('/deleteuser', async (req, res) => {
+    let id = req.body.idd;
+
+    const DeleteUser = await LoginUser.findByPk(id)
+
+    if (DeleteUser != null) {
+        DeleteUser.destroy()
+        res.render('login');
+    } else {
+        res.send('Usuário Não Encontrado!')
+    }
+
+})
+app.post('/editar', async (req, res) => {
     let id = req.body.id
     let name = req.body.recepNome
     let livro = req.body.recepLivro
     let data = req.body.recepDateL
     let dias = req.body.recepDate
 
-    console.log("ID:", id);
-    console.log("Nome:", name);
-    console.log("Livro:", livro);
-    console.log("Data:", data);
-    console.log("Dias:", dias);
+
     let dateObject = new Date(data);
     let date =
         `${dateObject.getDate()}/${dateObject.getMonth() + 1}/${dateObject.getFullYear()} ` +
         `${dateObject.getHours()}:${dateObject.getMinutes()}`;
 
+    const EditBook = await CadastroBooks.findByPk(id)
 
-    table[id].nome = name
-    table[id].LivroNome = livro
-    table[id].DataAluguel = date
-    table[id].QtdDia = dias
-
-    res.render('tabela', { data: table });
+    if (EditBook != null) {
+        EditBook.nome = name
+        EditBook.LivroNome = livro
+        EditBook.DataAluguel = date
+        EditBook.QtdDia = dias
+        EditBook.save()
+        res.render('tabela', { data: await CadastroBooks.findAll() });
+    }
 })
 
-app.post('/deletar', (req, res) => {
+app.post('/deletar', async (req, res) => {
     let id = req.body.idd;
-    console.log(table);
 
-    if (id >= 0 && id < table.length) {
-        table.splice(id, 1);
-        res.render('tabela', { data: table });
+    const DeleteBook = await CadastroBooks.findByPk(id)
 
+    if (DeleteBook != null) {
+        DeleteBook.destroy()
+        res.render('tabela', { data: await CadastroBooks.findAll() });
+    } else {
+        res.send('Livro Não Encontrado!')
     }
-});
 
+
+});
+conexao.sync({force: true});
+// const person = await Person.create({
+//     nome: 'comput',
+//     endereco: '10.50',
+// })
+
+// const user = await LoginUser.create({
+//     email: 'raama@gmail.com',
+//     senha: '123',
+//     idPerson: pedido.id
+// })
+// const cadastro = CadastroBooks.create({
+//     nome: 'Raama',
+//     LivroNome: 'tgetsando',
+//     DataAluguel: '0000-00-00 00:00:00',
+//     QtdDia: 'Até 3 dias',
+//     idUser = user.id
+
+// })
+// const pedido = await AluguelBooks.create({
+//     produto: 'comput',
+//     valor: 10.50,
+//     idUser = user.id
+// })
+// console.log(pedido)
 
 
 app.listen(port, () => {
     console.log(` Server listening on ${port}`)
 })
-
-
-
-
