@@ -10,6 +10,11 @@ const AluguelBooks = require('./models/aluguelBooks')
 const app = express()
 const port = 3000
 
+<<<<<<< HEAD
+=======
+var data = []
+
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 app.set('views', './views')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -19,7 +24,14 @@ app.use(bodyparser.urlencoded({ extended: false }))
 app.get('/', (req, res) => {
     res.render('login');
 })
+app.get('/index', (req, res) => {
+    res.render('index');
+})
+app.get('/tabela', async (req, res) => {
+    res.render('tabela', { data: await CadastroBooks.findAll() });
+});
 
+<<<<<<< HEAD
 app.get('/index', async (req, res) => {
 
 
@@ -30,10 +42,13 @@ app.get('/tabela', async (req, res) => {
     res.render('tabela', { data: await CadastroBooks.findAll() });
 });
 
+=======
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 app.get('/user', async (req, res) => {
     res.render('user', { banco: await LoginUser.findAll() });
 });
 
+<<<<<<< HEAD
 app.get('/cadastro', async (req, res) => {
     res.render('cadastro', { data: await LoginUser.findAll() });
 });
@@ -58,6 +73,15 @@ app.post('/cadastro', async (req, res) => {
     const User = await Person.findByPk(idlogado)
     let nomelogado = req.body.nome
     nomelogado = User.nome
+=======
+app.get('/cadastro',async (req, res) => {
+    res.render('cadastro',  { data: await LoginUser.findAll()  });
+});
+
+
+app.post('/cadastro', async (req, res) => {
+    let nome = req.body.nome
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
     let nomeL = req.body.nomeL
     let DnomeL = req.body.DnomeL
     let dateObject = new Date(DnomeL);
@@ -67,6 +91,7 @@ app.post('/cadastro', async (req, res) => {
 
     let optradio = req.body.optradio
     const novoBook = await CadastroBooks.create({
+<<<<<<< HEAD
         nome: nomelogado,
         LivroNome: nomeL,
         DataAluguel: dateObject,
@@ -162,16 +187,79 @@ app.post('/login', async (req, res) => {
         }
         const books = await AluguelBooks.findAll();
         res.render('index', { data: { "user": User, "books": books } })
+=======
+        nome: nome,
+        LivroNome: nomeL,
+        DataAluguel: date,
+        QtdDia: optradio,
+        
+
+    })
+    console.log(novoBook)
+    // let item = { 'nome': nome, 'LivroNome': nomeL, 'DataAluguel': date, 'QtdDia': optradio, 'dataa': DnomeL }
+    res.render('tabela', { data: await CadastroBooks.findAll() });
+
+})
+
+app.post('/cada', async (req, res) => {
+    let email = req.body.email
+    let senha = req.body.pswd
+    let nome = req.body.nome
+    let endereco = req.body.endereco
+
+    const novoPerson = await Person.create({
+        nome: nome,
+        endereco: endereco
+    })
+   const novaPerson = await LoginUser.create({
+        email: email,
+        senha: senha
+   })
+
+    console.log(novoPerson)
+    console.log(novaPerson)
+    // res.redirect(`/index/${novoPerson.id}`);
+
+    res.render('login')
+
+})
+app.post('/index', async (req, res) => {
+    res.render('cadastro', { data: await LoginUser.findAll()  });
+
+})
+
+
+app.post('/login', async (req, res) => {
+    let email = req.body.email
+    let senha = req.body.pswd
+    
+  
+    try {
+        const User = await LoginUser.findOne({ where: { email: email , senha: senha} })
+        if (User === null) {
+            res.send('Usuário não encontrado!')
+
+        } else if (User === null) {
+            res.send('Senha incorreta!')
+        }
+
+        res.render('index')
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 
     }
     catch (error) {
         res.send(error)
+<<<<<<< HEAD
 
+=======
+        return 
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
     }
 
 })
 
 app.get('/user', async (req, res) => {
+<<<<<<< HEAD
 
     res.render('user');
 });
@@ -182,12 +270,18 @@ app.post('/user', async (req, res) => {
     const user = await LoginUser.findByPk(id);
 
     res.render('user', { banco: user });
+=======
+    res.render('user', { banco: await LoginUser.findAll() });
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 });
 app.post('/editaruser', async (req, res) => {
     let email = req.body.emailuser
     let senha = req.body.senhauser
     let id = req.body.iduser
+<<<<<<< HEAD
     
+=======
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 
     const EditUser = await LoginUser.findByPk(id)
 
@@ -195,7 +289,11 @@ app.post('/editaruser', async (req, res) => {
         EditUser.email = email
         EditUser.senha = senha
         EditUser.save()
+<<<<<<< HEAD
         res.render('user', { banco: await LoginUser.findByPk(id) });
+=======
+        res.render('user', { banco: await LoginUser.findAll() });
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
     }
 
 })
@@ -216,8 +314,11 @@ app.post('/deleteuser', async (req, res) => {
 app.post('/editar', async (req, res) => {
     let id = req.body.id
     let name = req.body.recepNome
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
     let livro = req.body.recepLivro
     let data = req.body.recepDateL
     let dias = req.body.recepDate
@@ -254,7 +355,35 @@ app.post('/deletar', async (req, res) => {
 
 
 });
+<<<<<<< HEAD
 conexao.sync();
+=======
+conexao.sync({force: true});
+// const person = await Person.create({
+//     nome: 'comput',
+//     endereco: '10.50',
+// })
+
+// const user = await LoginUser.create({
+//     email: 'raama@gmail.com',
+//     senha: '123',
+//     idPerson: pedido.id
+// })
+// const cadastro = CadastroBooks.create({
+//     nome: 'Raama',
+//     LivroNome: 'tgetsando',
+//     DataAluguel: '0000-00-00 00:00:00',
+//     QtdDia: 'Até 3 dias',
+//     idUser = user.id
+
+// })
+// const pedido = await AluguelBooks.create({
+//     produto: 'comput',
+//     valor: 10.50,
+//     idUser = user.id
+// })
+// console.log(pedido)
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 
 
 app.listen(port, () => {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <style>
     form{
         max-width: 400px;
@@ -40,6 +41,43 @@
             </div>
             
         </form>
+=======
+<%- include('header') %>
+    <br><br>
+
+    <% for(var i=0; i < banco.length; i++) { %>
+
+        <h1 style="text-align: center;">Perfil do usuário</h1>
+        <form class="was-validated">
+            <div class="mb-3 mt-3">
+                <h5>ID: <%= banco[i].id %>
+                </h5>
+            </div><br>
+            <div class="mb-3 mt-3">
+                <h5>Email: <%= banco[i].email %>
+                </h5>
+            </div><br>
+            <div class="mb-3 mt-3">
+                <h5>Senha: <%= banco[i].senha %>
+                </h5>
+            </div><br>
+
+            <div class="mb-3 mt-3">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"
+                    data-id="<%= banco[i].id %>" data-email="<%= banco[i].email %>"
+                    data-senha="<%= banco[i].senha %>">Editar</button>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletModal"
+                    data-id="<%= banco[i].id %>" data-email="<%= banco[i].email %>" data-senha="<%= banco[i].senha %>">
+                    Deletar
+                </button>
+            </div>
+
+        </form>
+        <% } %>
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
 
             <!-- The Modal -->
             <div class="modal fade" id="myModal">
@@ -65,6 +103,10 @@
                                     <label for="nome">Senha do Usuário:</label>
                                     <input type="text" class="form-control" id="senhauser" name="senhauser" required>
                                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
                                 <button type="submit">Editar</button>
                             </form>
                         </div>
@@ -125,8 +167,11 @@
 
                     modal.find('#recepIdd').val(r_id);
                 })
+<<<<<<< HEAD
 
                
+=======
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
             </script>
 
             <%- include('footer') %>

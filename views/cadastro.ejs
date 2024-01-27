@@ -5,9 +5,20 @@
     <h6 style="text-align: center; color: red;">SE A DATA DE ENTREGA DO LIVRO ULTRAPASSAR DE 7 DIAS E NÃO FOR RENOVADO,
       SERÁ GERADA UMA MULTA DE R$ 1.00 POR DIA. </h6>
     <br>
+<<<<<<< HEAD
     <form action="/cadastro" method="post" class="was-validated" name="form" id="form">
 
 
+=======
+
+    <form action="/cadastro" method="post" class="was-validated">
+      <div class="mb-3">
+        <label for="nomeL">ID do Cliente:</label>
+        <input type="text" class="form-control" id="id" placeholder="" name="id" required>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
       <div class="mb-3 mt-3">
         <label for="aqui">ID do Cliente:</label>
         <input type="text" class="form-control" id="aqui" name="aqui" value="<%= data.aqui %>" readonly>
@@ -52,6 +63,7 @@
       <div class="d-grid">
         <button type="submit" class="btn btn-dark btn-block">Enviar</button>
       </div>
+  
     </form>
   </div>
 

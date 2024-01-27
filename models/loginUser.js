@@ -21,10 +21,17 @@ const LoginUser = conexao.define('login_user',{
 })
 
 LoginUser.belongsTo(Person,{
+<<<<<<< HEAD
     constraint: true,
     foreignKey: 'idPerson'
 })
 AluguelBooks.hasMany(AluguelBooks,{
+=======
+    constraints: true,
+    foreignKey: 'idPerson'
+})
+AluguelBooks.hasMany(LoginUser,{
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
     foreignKey: 'idUser'
 })
 

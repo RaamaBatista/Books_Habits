@@ -37,13 +37,21 @@
 
             <td>
               <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal"
+<<<<<<< HEAD
                 data-id="<%= data[i].id %>" data-nome="<%= data[i].nome %>" data-livro="<%= data[i].LivroNome %>"
+=======
+                data-id="<%= i%>" data-nome="<%= data[i].nome %>" data-livro="<%= data[i].LivroNome %>"
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
                 data-data="<%= data[i].dataa %>" data-dia="<%= data[i].QtdDia %>">Editar</button>
             </td>
 
             <td>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletModal"
+<<<<<<< HEAD
                 data-idd="<%= data[i].id %>">
+=======
+                data-idd="<%= i %>">
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
                 Deletar
               </button>
             </td>
@@ -92,7 +100,11 @@
                 <div class="mb-3">
                   <label for="nomeL">Nome do livro:</label>
                   <input type="text" class="form-control" id="recepLivro" placeholder="Enter Book title"
+<<<<<<< HEAD
                     name="recepLivro" required readonly>
+=======
+                    name="recepLivro" required>
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
                   <div class="valid-feedback">Valid.</div>
                   <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
@@ -165,6 +177,7 @@
           let r_livro = button.data('livro');
           let r_data = button.data('data');
           let r_dia = button.data('dia');
+<<<<<<< HEAD
 
           let modal = $(this);
           modal.find('#recepId').val(r_id);
@@ -185,3 +198,26 @@
         })
       </script>
       <%- include('footer') %>
+=======
+
+          let modal = $(this);
+          modal.find('#recepId').val(r_id);
+          modal.find('#recepNome').val(r_nome);
+          modal.find('#recepLivro').val(r_livro);
+          modal.find('#recepDateL').val(r_data);
+          modal.find('#recepDate').val(r_dia);
+          modal.find('input[name="recepDate"][value="' + r_dia + '"]').prop('checked', true);
+        })
+        $('#deletModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+
+          let r_id = button.data('idd');
+
+          let modal = $(this);
+
+          modal.find('#recepIdd').val(r_id);
+        })
+        </script>
+        <%- include('footer') %>
+
+>>>>>>> 2435520b8b82f2b22053827e4451ca826641ee40
