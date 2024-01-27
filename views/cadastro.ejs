@@ -5,16 +5,28 @@
     <h6 style="text-align: center; color: red;">SE A DATA DE ENTREGA DO LIVRO ULTRAPASSAR DE 7 DIAS E NÃO FOR RENOVADO,
       SERÁ GERADA UMA MULTA DE R$ 1.00 POR DIA. </h6>
     <br>
-    <form action="/cadastro" method="post" class="was-validated">
+    <form action="/cadastro" method="post" class="was-validated" name="form" id="form">
+
+
       <div class="mb-3 mt-3">
-        <label for="nome">Nome do Cliente:</label>
-        <input type="text" class="form-control" id="nome" placeholder="Enter name" name="nome" required>
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
+        <label for="aqui">ID do Cliente:</label>
+        <input type="text" class="form-control" id="aqui" name="aqui" value="<%= data.aqui %>" readonly>
+
+      </div>
+      <div class="mb-3">
+        <label for="nomeL">Nome do Cliente:</label>
+        <input type="text" class="form-control" id="nome" name="nome" value="<%= data.user.nome %>" disabled>
       </div>
       <div class="mb-3">
         <label for="nomeL">Nome do livro:</label>
-        <input type="text" class="form-control" id="nomeL" placeholder="Enter Book title" name="nomeL" required>
+        <select id="nomeL" name="nomeL">
+          <option value="" disabled selected>Select a book</option>
+          <% for (let i=0; i < data.books.length; i++) { %>
+            <option value="<%= data.books[i].nome %>">
+              <%= data.books[i].nome %>
+            </option>
+            <% } %>
+        </select>
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
@@ -45,5 +57,14 @@
 
 
   </div>
+  <script>
+    $('#form').on('submit', function (event) {
+      var button = $(event.relatedTarget);
+      let r_nome = button.data('nome');
+      let r_id = button.data('id')
 
-  <%- include('footer') %>
+      let modal = $(this);
+      modal.find('#nome').val(r_nome);
+      modal.find('#id').val(r_id)
+    })
+  </script>

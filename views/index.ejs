@@ -1,52 +1,82 @@
+<style>
+  body {
+    background-color: antiquewhite;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .col-md-3 button.btn-primary {
+    background-color: rgb(104, 101, 6);
+    border-color: rgb(104, 101, 6);
+    color: white;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+.img-fluid{
+  width: 50%;
+  margin-left:25% ;
+}
+.book-info {
+    color: brown;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: center;
+    flex: 1;
+    padding: 0 10px;
+  }
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+</style>
+
 <%- include('header') %>
-  <br><br>
-  <h1 style="text-align: center;">Página Inicial</h1><br>
+<div class="row">
+  <div class="col-md-3">
+    <form action="/antIndex" method="post">
+      <input type="hidden" id="idlogado" name="idlogado" value="<%= data.user.id%>">
+      <input type="hidden" id="nomelogado" name="nomelogado" value="data.user.person.nome">
+      <button type="submit" id="botao" class="btn btn-primary">Cadastrar</button>
+    </form>
+  </div>
 
+  <div class="col-md-3">
+    <form action="/index" method="post">
+      <input type="hidden" id="idlogado" name="idlogado" value="<%= data.user.id%>">
+      <input type="hidden" id="nomelogado" name="nomelogado" value="data.user.person.nome">
+      <button type="submit" id="botao" class="btn btn-primary">Alugar</button>
+    </form>
+  </div>
 
-
-  <main>
-    <!-- Carousel -->
-    <div id="demo" class="carousel slide" data-bs-ride="carousel">
-
-      <!-- Indicators/dots -->
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+  <div class="col-md-3">
+    <form action="/user" method="post">
+      <input type="hidden" id="idlogado" name="idlogado" value="<%= data.user.id%>">
+      <button type="submit" id="botao" class="btn btn-primary">Perfil</button>
+    </form>
+  </div>
+</div>
+<br><br>
+<h1 style="text-align: center; color: rgb(82, 82, 0);">Livros Disponíveis</h1><br>
+<div class="container mt-3">
+  <div class="row">
+    <% for (let i=0; i < data.books.length; i++) { %>
+      <div class="col-md-4 mb-4 b">
+        <img src="<%= data.books[i].imagemUrl %>" class="img-fluid book-image" alt="Imagem <%= i + 1 %>">
+        <p class="book-info">
+          <%= data.books[i].nome %>-<br> Valor: R$ <%= data.books[i].valor %>
+        </p>
       </div>
-
-      <!-- The slideshow/carousel -->
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="img/la.jpg" alt="Los Angeles" class="d-block" style="width:100%">
-          <div class="carousel-caption">
-            <h3>Los Angeles</h3>
-            <p>We had such a great time in LA!</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="img/chicago.jpg" alt="Chicago" class="d-block" style="width:100%">
-          <div class="carousel-caption">
-            <h3>Chicago</h3>
-            <p>Thank you, Chicago!</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="img/ny.jpg" alt="New York" class="d-block" style="width:100%">
-          <div class="carousel-caption">
-            <h3>New York</h3>
-            <p>We love the Big Apple!</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Left and right controls/icons -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
-    </div>
-  </main>
-<%- include('footer') %>
+    <% } %>
+  </div>
+</div>
+<main>
+</main>
+<!-- <%- include('footer') %> -->

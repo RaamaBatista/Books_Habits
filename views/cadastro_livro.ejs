@@ -1,0 +1,59 @@
+<%- include('header') %>
+    <br><br>
+    <div class="container mt-3">
+        <h2 style="text-align: center;">Cadastro de novos Livros</h2>
+        <br>
+        <form action="/cadastro_livros" method="post" class="was-validated" name="form" id="form">
+            <div class="mb-3 mt-3">
+                <div class="mb-3">
+                    <label for="id">ID do Cliente:</label>
+                    <input type="text" class="form-control" id="idlogado" name="idlogado" value="<%= data.user.id %>" readonly>
+
+                </div>
+                <div class="mb-3">
+                    <!-- colocar automaticamente o nome -->
+                    <label for="id">Nome do Cliente:</label>
+                    <input type="text" id="nomelogado" name="nomelogado" value="<%= data.user.nome %>">
+                  </div>
+                <div class="mb-3">
+                    <label for="nome">Link De imagem da capa do livro:</label>
+                    <input type="text" class="form-control" id="imagemUrl" placeholder="Enter name" name="imagemUrl"
+                        value="" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="nomeL">Nome do livro:</label>
+                    <input type="text" class="form-control" id="nomeL" placeholder="Enter name book" name="nomeL"
+                        value="" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="vlr">Valor do aluguel do livro:</label>
+                    <input type="text" class="form-control" id="vlr" placeholder="Enter name book" name="vlr"
+                        value="" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark btn-block">Enviar</button>
+                </div>
+                <div></div>
+     </form>
+    </div>
+
+
+    </div>
+    <script>
+        $('#form').on('submit', function (event) {
+            var button = $(event.relatedTarget);
+            let r_nome = button.data('nome');
+            let r_id = button.data('id')
+
+            let modal = $(this);
+            modal.find('#nome').val(r_nome);
+            modal.find('#id').val(r_id)
+        })
+    </script>
